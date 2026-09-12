@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 import Container from "./Container";
+import logoImg from "../assets/logo-text.png";
 
 const navLinks = ["Home", "Technologies", "Projects", "About", "Contact"];
 
@@ -10,12 +11,11 @@ export default function Navbar() {
 
   const Logo = (
     <div className="flex items-center gap-2">
-      <span className="brand-gradient-bg flex h-9 w-9 items-center justify-center rounded-xl text-sm font-bold text-white">
-        DS
-      </span>
-      <span className="text-lg font-bold text-base-text">
-        Dev <span className="text-brand-pink">Stack</span>
-      </span>
+      <img
+        src={logoImg}
+        alt="Dev Stack Logo"
+        className="h-9 w-auto object-contain"
+      />
     </div>
   );
 
@@ -43,7 +43,7 @@ export default function Navbar() {
                     onClick={() => setActive(link)}
                     className={`font-medium transition-colors ${
                       active === link
-                        ? "text-brand-pink"
+                        ? "text-[#D91B7E]"
                         : "text-base-muted hover:text-base-text"
                     }`}
                   >
@@ -55,10 +55,10 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center justify-end gap-3 md:gap-6">
-            <button className="text-sm font-medium text-base-text md:text-base">
+            <button className="text-sm font-medium text-base-text md:text-base hover:opacity-80">
               Sign In
             </button>
-            <button className="brand-gradient-bg rounded-full px-4 py-1.5 text-sm font-semibold text-white md:px-5 md:py-2 md:text-base">
+            <button className="rounded-full bg-[#D91B7E] px-4 py-1.5 text-sm font-semibold text-white transition-opacity hover:opacity-90 md:px-5 md:py-2 md:text-base">
               Sign Up
             </button>
           </div>
@@ -75,7 +75,9 @@ export default function Navbar() {
                     setActive(link);
                     setIsOpen(false);
                   }}
-                  className={`font-medium ${active === link ? "text-brand-pink" : "text-base-muted"}`}
+                  className={`font-medium ${
+                    active === link ? "text-[#D91B7E]" : "text-base-muted"
+                  }`}
                 >
                   {link}
                 </button>

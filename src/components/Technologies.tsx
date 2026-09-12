@@ -40,12 +40,25 @@ export default function Technologies() {
   };
 
   return (
-    <section className="py-16">
+    <section className="bg-white py-12">
       <Container>
+        {/* Section Header */}
+        <div className="mb-10">
+          <h2 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
+            Explore the <span className="text-[#D91B7E]">Technologies</span>
+          </h2>
+          <p className="mt-2 text-sm text-gray-500">
+            Pick one technology per category to build your ideal stack.
+          </p>
+        </div>
+
         {loading ? (
-          <p className="text-center text-base-muted">Loading technologies...</p>
+          <p className="text-center text-gray-400 py-12">
+            Loading technologies...
+          </p>
         ) : (
           <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
+            {/* Grid Area */}
             <div className="grid flex-1 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {technologies.map((tech) => (
                 <TechnologyCard
@@ -57,6 +70,7 @@ export default function Technologies() {
               ))}
             </div>
 
+            {/* Sidebar Area */}
             <YourStack
               stack={stack}
               onRemove={handleRemove}
