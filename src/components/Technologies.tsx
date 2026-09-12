@@ -1,23 +1,17 @@
-import { useEffect, useState } from "react";
+import { use, useState } from "react";
 import { toast } from "react-toastify";
 import type { Technology } from "../types/technology";
 import Container from "./Container";
 import TechnologyCard from "./TechnologyCard";
 import YourStack from "./YourStack";
 
-export default function Technologies() {
-  const [technologies, setTechnologies] = useState<Technology[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [stack, setStack] = useState<Technology[]>([]);
+type TechnologiesProps = {
+  techPromise: Promise<Technology[]>;
+};
 
-  useEffect(() => {
-    fetch("/data/technologies.json")
-      .then((res) => res.json())
-      .then((data: Technology[]) => {
-        setTechnologies(data);
-        setLoading(false);
-      });
-  }, []);
+export default function Technologies({ techPromise }: TechnologiesProps) {
+  const technologies = use(techPromise);
+  const [stack, setStack] = useState<Technology[]>([]);
 
   const handleAdd = (technology: Technology) => {
     const alreadyAdded = stack.some((item) => item.id === technology.id);
@@ -42,7 +36,6 @@ export default function Technologies() {
   return (
     <section className="bg-white py-12">
       <Container>
-        {/* Section Header */}
         <div className="mb-10">
           <h2 className="text-3xl font-extrabold text-gray-900 md:text-4xl">
             Explore the <span className="text-[#D91B7E]">Technologies</span>
@@ -52,32 +45,24 @@ export default function Technologies() {
           </p>
         </div>
 
-        {loading ? (
-          <p className="text-center text-gray-400 py-12">
-            Loading technologies...
-          </p>
-        ) : (
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
-            {/* Grid Area */}
-            <div className="grid flex-1 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {technologies.map((tech) => (
-                <TechnologyCard
-                  key={tech.id}
-                  technology={tech}
-                  isAdded={stack.some((item) => item.id === tech.id)}
-                  onAdd={handleAdd}
-                />
-              ))}
-            </div>
-
-            {/* Sidebar Area */}
-            <YourStack
-              stack={stack}
-              onRemove={handleRemove}
-              onRemoveAll={handleRemoveAll}
-            />
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
+          <div className="grid flex-1 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {technologies.map((tech) => (
+              <TechnologyCard
+                key={tech.id}
+                technology={tech}
+                isAdded={stack.some((item) => item.id === tech.id)}
+                onAdd={handleAdd}
+              />
+            ))}
           </div>
-        )}
+
+          <YourStack
+            stack={stack}
+            onRemove={handleRemove}
+            onRemoveAll={handleRemoveAll}
+          />
+        </div>
       </Container>
     </section>
   );
